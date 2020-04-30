@@ -4,7 +4,7 @@
 // --------------------------------------------------------------------------------------------------------------------------------------------- //
 // ********************************************************************************************************************************************* //
 
-// by Default: Load table data from data.js:
+// By Default: Load table data from data.js:
 // This is an array of objects, elemnts are: datetime, city, state, country, shape, durationMinutes & comments
 var tableData = data;
 
@@ -13,13 +13,6 @@ displayAllTableRows();
 
 // Filter dictionary 
 filterValues = {}
-
-// Datetime filter value:
-dateTimeInput = d3.select("#datetime");
-// State filter value:
-stateInput = d3.select("#state");
-// Shape filter value:
-shapeInput = d3.select("#shape");
 
 // Filter Button 
 // filterButton = d3.select("button").select("#filter-btn");
@@ -32,6 +25,7 @@ filterButton.on("click", applyFilters);
 
 // Reset Filter(s)
 resetButton.on("click", resetFilters);
+
 
 // ********************************************************************************************************************************************* //
 // --------------------------------------------------------------------------------------------------------------------------------------------- //
@@ -133,25 +127,19 @@ function applyFilters() {
     console.log("Applying filter(s)...");
 
     // Get the Datetime filter value:
-    filterValues.dateTimeValue = dateTimeInput.value;
+    filterValues.dateTimeValue = d3.selectAll(".filter").select("#datetime").property("value");
     // Get the State filter value:
-    filterValues.stateValue = stateInput.value;
+    filterValues.stateValue = d3.selectAll(".filter").select("#state").property("value");
     // Get the Shape filter value:
-    filterValues.shapeValue = shapeInput.value;
-    console.log(filterValues.dateTimeValue);
-    console.log(filterValues.stateValue);
-    console.log(filterValues.shapeValue);
-  
-    // Temp code
-    filterValues.dateTimeValue = "1/1/2010";
-    filterValues.stateValue = "ca";
-    filterValues.shapeValue = "triangle";
+    filterValues.shapeValue = d3.selectAll(".filter").select("#shape").property("value");
     
     // Start array with tableData 
     var filteredTableData = tableData;
 
+
     // Is there an input for datetime - apply filter if yes 
-    if ((filterValues.dateTimeValue != "") || (filterValues.stateValue != "") && (filterValues.shapeValue != ""))
+    if ((filterValues.dateTimeValue != "") || (filterValues.stateValue != "") || (filterValues.shapeValue != ""))
+ 
     {
         // Date Filter
         if (filterValues.dateTimeValue != "") {
@@ -163,7 +151,7 @@ function applyFilters() {
             console.log(`Applying state filter... on... ${filterValues.stateValue}`);
             filteredTableData = filteredTableData.filter(stateFilter);            
         }
-        if (filterValues.dateTimeValue != "") {
+        if (filterValues.shapeValue != "") {
             console.log(`Applying shape filter... on... ${filterValues.shapeValue}`);
             filteredTableData = filteredTableData.filter(shapeFilter);            
         }
@@ -215,18 +203,18 @@ function resetFilters() {
     // Log
     console.log("Resetting filter(s)...");
 
+    // Reset values:
     // Set the Datetime filter value:
-    dateTimeInput.value = "";
+    d3.selectAll(".filter").select("#datetime").property("value", "");
     // Set the State filter value:
-    stateInput.value = "";
+    d3.selectAll(".filter").select("#state").property("value", "");
     // Set the Shape filter value:
-    shapeInput.value = "";
+    d3.selectAll(".filter").select("#shape").property("value", "");
     
-    
-    // 1st remove all filters 
+    // Clear exisitng data  
     clearAllTableRows();
 
-    // Add all table rows 
+    // Load all table rows 
     displayAllTableRows();
 
     // Return
